@@ -8,16 +8,10 @@ import { useHistory, useLocation } from 'react-router';
 import { Button } from 'antd/lib/radio';
 import firebase from 'firebase/compat/app'; //v9
 import 'firebase/compat/auth'; //v9
+import { firebaseConfig } from '../../firebase.config';
 // import firebase from 'firebase/compat/app';
 // import * as firebase from "firebase/app";
-firebase.initializeApp({
-    apiKey: "AIzaSyCdRx0j7V96Ox7TdvDnvJF3GqptdwaBNAU",
-    authDomain: "mbstu-chat-box.firebaseapp.com",
-    projectId: "mbstu-chat-box",
-    storageBucket: "mbstu-chat-box.appspot.com",
-    messagingSenderId: "664717229828",
-    appId: "1:664717229828:web:8a7a21c9dcc16f0dc2da51"
-});
+firebase.initializeApp(firebaseConfig);
 const Login = () => {
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
     const [myUser, setMyUser] = useState("");
