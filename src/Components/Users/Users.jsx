@@ -1,21 +1,21 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../App';
 import user from "../../images/cse-logo.png";
+import { all_users } from '../../utils/fakeData';
 import ChatBox from '../ChatBox/ChatBox';
-import { all_users } from '../utils/fakeData';
 import './Users.css';
 
 const Client = () => {
-    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
-    const [users, setUsers] = useState(all_users);
+    const [loggedInUser, setLoggedInUser, users, setUsers] = useContext(UserContext);
     const [chatWithUser, setChatWithUser] = useState({});
+    
     return (
         <main className="position-relative d-flex justify-content-center">
             <div className="w-25 border left-section" style={{position: "stick", height: "100vh"}}>
                 <div className="sticky-top">
                     <div className="bg-light shadow p-3 border-bottom d-flex justify-content-between">
-                        <img className="rounded-circle shadow border" style={{height: "70px", width: "70px"}} src={loggedInUser?.photoURL} alt="" />
-                        <h3 className="align-items-center my-auto">{loggedInUser?.displayName}</h3>
+                        <img className="rounded-circle shadow border" style={{height: "70px", width: "70px"}} src={loggedInUser?.img} alt="" />
+                        <h5 className="align-items-center my-auto">{loggedInUser?.name}</h5>
                     </div>
                 </div>
                 {

@@ -16,20 +16,25 @@ import Home from './Components/Home/Home';
 import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 import Users from './Components/Users/Users';
 import Login from './Components/Login/Login';
+import { getUsers } from './Components/Services/User.Service';
+import { all_users } from './utils/fakeData';
 export const UserContext = createContext();
 function App() {
   const [loggedInUser, setLoggedInUser] = useState();
   const [users, setUsers] = useState([]);
   console.log({loggedInUser});
+  const loadUsers = async () => {
+    const data = await getUsers();
+    console.log({data});
+    if(!data?.message){
+      setUsers(data);
+    }else{
+      setUsers(all_users);
+    }
+  }
   useEffect(() => {
     AOS.init();
-    // fetch('api/link')
-    // .then(res => res.json())
-    // .then( data => {
-    //     setUsers(data);
-    // })
-    // .catch(err => console.log(err, loggedInUser, setLoggedInUser))
-    
+    // loadUsers();
   },[""]);
   return (
     <UserContext.Provider value={[loggedInUser, setLoggedInUser, users, setUsers]}>

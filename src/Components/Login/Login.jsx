@@ -9,11 +9,12 @@ import { Button } from 'antd/lib/radio';
 import firebase from 'firebase/compat/app'; //v9
 import 'firebase/compat/auth'; //v9
 import { firebaseConfig } from '../../firebase.config';
+import { getUsers, setUser } from '../Services/User.Service';
 // import firebase from 'firebase/compat/app';
 // import * as firebase from "firebase/app";
 firebase.initializeApp(firebaseConfig);
 const Login = () => {
-    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+    const [loggedInUser, setLoggedInUser, users, setUsers] = useContext(UserContext);
     const [myUser, setMyUser] = useState("");
     const [wrongMessage, setWrongMessage] = useState(false);
     
@@ -32,15 +33,30 @@ const Login = () => {
             // console.log(location.state)
             setMyUser('client');
         }
-        // fetch(`https://travel-solution-server.herokuapp.com/find-admins`)
-        // .then(res => res.json())
-        // .then(data => {
-        // //    console.log(data);
-        //    setAllAdmin(data);
-        // })
+        
     },[location.state])
     // console.log(myUser);
     const {from} = location.state || { from: { pathname: "/"}};
+    const addUserDB = async(user) => {
+        await setUser({body: user});
+        // console.log({result});
+    }
+    const getUsersWithoutCurrentUser = async(curUser) => {
+        console.log({curUser});
+        const result = await getUsers();
+        console.log({result});
+        const flag = result?.find(user => user.email === curUser?.email);
+        // console.log({flag});
+        const otherUsers = result.filter(user => user.email != curUser.email);
+        if(!flag?.email) {
+            addUserDB(curUser);
+            // otherUsers.push(curUser);
+        }
+        // console.log({otherUsers});
+        setUsers(otherUsers);
+        setLoggedInUser(curUser);
+        history.replace(from);
+    }
     const handleClick = () =>{
         const googleProvider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(googleProvider)
@@ -51,13 +67,19 @@ const Login = () => {
             const {displayName, email, photoURL} = user;
             const curUser = {
                 email,
-                displayName,
-                photoURL,
+                name: displayName,
+                img: photoURL,
                 userType: myUser
             }
-            console.log({user: curUser});
+            // console.log({user: curUser});
+            
+            getUsersWithoutCurrentUser(curUser);
+            // if(!flag) {
+            //     addUserDB(curUser);
+            // }else{
+            // }
             setLoggedInUser(curUser);
-            history.replace(from);
+            
             // const isAdminEmail = allAdmin.find( admin => admin.email === curUser.email);
             // // console.log(isAdminEmail);
             // // console.log(isAdminEmail);
