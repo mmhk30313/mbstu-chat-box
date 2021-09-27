@@ -1,4 +1,4 @@
-import { baseUrl } from "./server";
+import { baseUrl, liveUrl } from "./server";
 
 export const request = (link, params) => {
     // console.log({params});
@@ -34,7 +34,7 @@ export const request = (link, params) => {
     })
     // console.log({fetchConfig});
     
-    const url = baseUrl + link;
+    const url = (liveUrl || baseUrl) + link;
     // console.log({url});
     
     return fetch(url, fetchConfig)
