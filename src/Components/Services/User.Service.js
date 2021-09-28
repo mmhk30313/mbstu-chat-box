@@ -1,5 +1,5 @@
 import { request } from "../../utils/request";
-const addUserPath = "/add/user/";
+const addUserPath = "/add/user";
 const findUsersPath = "/find/users";
 export const setUser = async(params) => {
     const {body} = params;

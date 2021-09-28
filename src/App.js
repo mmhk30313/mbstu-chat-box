@@ -34,7 +34,7 @@ function App() {
   }
   useEffect(() => {
     AOS.init();
-    // loadUsers();
+    loadUsers();
   },[""]);
   return (
     <UserContext.Provider value={[loggedInUser, setLoggedInUser, users, setUsers]}>

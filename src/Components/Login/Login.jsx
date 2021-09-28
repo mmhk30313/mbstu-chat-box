@@ -45,18 +45,19 @@ const Login = () => {
         console.log({curUser});
         const result = await getUsers();
         console.log({result});
-        const flag = result?.find(user => user.email === curUser?.email);
+        const user1 = result?.find(user => user.email === curUser?.email);
         // console.log({flag});
         const otherUsers = result.filter(user => user.email != curUser.email);
-        if(!flag?.email) {
+        if(!user1?.email) {
             addUserDB(curUser);
             // otherUsers.push(curUser);
         }
         // console.log({otherUsers});
         setUsers(otherUsers);
-        setLoggedInUser(curUser);
-        history.replace(from);
+        setLoggedInUser(user1);
+        // history.replace(from);
     }
+    
     const handleClick = () =>{
         const googleProvider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(googleProvider)
@@ -73,13 +74,13 @@ const Login = () => {
             }
             // console.log({user: curUser});
             
-            getUsersWithoutCurrentUser(curUser);
+            // getUsersWithoutCurrentUser(curUser);
             // if(!flag) {
             //     addUserDB(curUser);
             // }else{
             // }
             setLoggedInUser(curUser);
-            
+            history.replace(from);
             // const isAdminEmail = allAdmin.find( admin => admin.email === curUser.email);
             // // console.log(isAdminEmail);
             // // console.log(isAdminEmail);
